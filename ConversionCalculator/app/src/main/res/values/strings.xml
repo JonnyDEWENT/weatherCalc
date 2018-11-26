@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">ConversionCalculator</string>
+    <string name="conversion_calculator">Conversion Calculator</string>
+    <string name="length_converter">Length Converter</string>
+    <string name="from">From</string>
+    <string name="enter_from_value">Enter from value</string>
+    <string name="to">To</string>
+    <string name="enter_to_value">Enter to value</string>
+    <string name="calculate">Calculate</string>
+    <string name="clear">Clear</string>
+    <string name="mode">Mode</string>
+    <string name="volume_converter">Volume Converter</string>
+
+    <string name="meters">Meters</string>
+    <string name="miles">Miles</string>
+    <string name="yards">Yards</string>
+
+    <string name="gallons">Gallons</string>
+    <string name="liters">Liters</string>
+    <string name="quarts">Quarts</string>
+
+    <string name="title_activity_settings">Settings</string>
+
+    <string-array name="length_units">
+        <item>Meters</item>
+        <item>Yards</item>
+        <item>Miles</item>
+    </string-array>
+
+    <string-array name="volume_units">
+        <item>Gallons</item>
+        <item>Liters</item>
+        <item>Quarts</item>
+    </string-array>
+
+</resources>

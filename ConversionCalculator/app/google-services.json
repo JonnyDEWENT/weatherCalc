@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "462578747940",
+    "firebase_url": "https://cis357hw10.firebaseio.com",
+    "project_id": "cis357hw10",
+    "storage_bucket": "cis357hw10.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:462578747940:android:e0b11986c8f2691a",
+        "android_client_info": {
+          "package_name": "com.cs357.conversioncalculator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "462578747940-5a7shi0l97a7tih97poj05cka0hlem2g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cs357.conversioncalculator",
+            "certificate_hash": "73ef90305ddefc24557cc77881e0080117ba0d00"
+          }
+        },
+        {
+          "client_id": "462578747940-r63assnjcgv4g9a7ed7oaqa28gv8umda.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2VosP0GJid6UIOs73nYjY8iX1y6oKAds"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "462578747940-r63assnjcgv4g9a7ed7oaqa28gv8umda.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
