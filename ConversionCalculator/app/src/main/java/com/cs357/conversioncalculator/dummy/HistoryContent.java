@@ -5,6 +5,8 @@ import android.support.v7.widget.DividerItemDecoration;
 import com.cs357.conversioncalculator.HistoryAdapter;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,16 +33,27 @@ public class HistoryContent {
         public String _key;
 
 
-        public final DateTime timestamp;
+        public final String timestamp;
 
         public HistoryItem(Double fromVal, Double toVal, String mode,
-                           String fromUnits, String toUnits, DateTime timestamp) {
+                           String fromUnits, String toUnits, String timestamp) {
             this.fromVal = fromVal;
             this.toVal = toVal;
             this.mode = mode;
             this.fromUnits = fromUnits;
             this.toUnits = toUnits;
             this.timestamp = timestamp;
+        }
+
+        public HistoryItem()
+        {
+
+            this.fromVal = 0.0;
+            this.toVal = 0.0;
+            this.mode = "Length";
+            this.fromUnits = "Meters";
+            this.toUnits = "Yards";
+            this.timestamp = "N/A";
         }
 
         @Override

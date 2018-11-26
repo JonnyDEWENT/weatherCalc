@@ -17,6 +17,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.cs357.conversioncalculator.dummy.HistoryContent;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -43,9 +46,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResume(){
         super.onResume();
-        topRef = FirebaseDatabase.getInstance().getReference();
+        allHistory.clear();
+        topRef = FirebaseDatabase.getInstance().getReference("history");
+        topRef.addChildEventListener (chEvListener);
     }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+        topRef.removeEventListener(chEvListener);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -83,7 +93,7 @@ public class MainActivity extends AppCompatActivity
 
                         HistoryContent.HistoryItem item = new HistoryContent.HistoryItem(
                                 Double.valueOf(fromValue.getText().toString()), Double.valueOf(toValue.getText().toString()), "Length Converter",
-                                toUnit.getText().toString(), fromUnit.getText().toString(), DateTime.now());
+                                toUnit.getText().toString(), fromUnit.getText().toString(), fmt.print(DateTime.now()));
                         HistoryContent.addItem(item);
                         topRef.push().setValue(item);
 
@@ -100,7 +110,7 @@ public class MainActivity extends AppCompatActivity
 
                         HistoryContent.HistoryItem item = new HistoryContent.HistoryItem(
                                 Double.valueOf(fromValue.getText().toString()), Double.valueOf(toValue.getText().toString()), "Volume Converter",
-                                toUnit.getText().toString(), fromUnit.getText().toString(), DateTime.now());
+                                toUnit.getText().toString(), fromUnit.getText().toString(), fmt.print(DateTime.now()));
                         HistoryContent.addItem(item);
                         topRef.push().setValue(item);
                         
@@ -155,6 +165,44 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
+
+    private ChildEventListener chEvListener = new ChildEventListener() {
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            HistoryContent.HistoryItem entry =
+                    (HistoryContent.HistoryItem) dataSnapshot.getValue(HistoryContent.HistoryItem.class);
+            entry._key = dataSnapshot.getKey();
+            allHistory.add(entry);
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+            HistoryContent.HistoryItem entry =
+                    (HistoryContent.HistoryItem) dataSnapshot.getValue(HistoryContent.HistoryItem.class);
+            List<HistoryContent.HistoryItem> newHistory = new ArrayList<HistoryContent.HistoryItem>();
+            for (HistoryContent.HistoryItem t : allHistory) {
+                if (!t._key.equals(dataSnapshot.getKey())) {
+                    newHistory.add(t);
+                }
+            }
+            allHistory = newHistory;
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import com.cs357.conversioncalculator.dummy.HistoryContent;
 import com.cs357.conversioncalculator.dummy.HistoryContent.HistoryItem;
 
+import java.util.List;
+
 /**
  * A fragment representing a list of Items.
  * <p/>
@@ -27,6 +29,7 @@ public class HistoryFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    List<HistoryItem> allHistory;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -49,6 +52,8 @@ public class HistoryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        allHistory = MainActivity.allHistory;
+
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
@@ -68,7 +73,7 @@ public class HistoryFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new HistoryAdapter(HistoryContent.ITEMS, mListener));
+            recyclerView.setAdapter(new HistoryAdapter(allHistory, mListener));
 
             DividerItemDecoration did = new DividerItemDecoration(recyclerView.getContext(),
                     DividerItemDecoration.VERTICAL);
