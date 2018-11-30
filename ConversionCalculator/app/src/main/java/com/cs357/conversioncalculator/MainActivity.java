@@ -1,19 +1,20 @@
 package com.cs357.conversioncalculator;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cs357.conversioncalculator.dummy.HistoryContent;
@@ -30,6 +31,10 @@ import org.joda.time.format.ISODateTimeFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import webservice.WeatherService;
+
+import static webservice.WeatherService.BROADCAST_WEATHER;
+
 public class MainActivity extends AppCompatActivity
 {
     public static final int SETTINGS_SELECTION = 1;
@@ -43,18 +48,70 @@ public class MainActivity extends AppCompatActivity
     public DatabaseReference topRef;
     public static List<HistoryContent.HistoryItem> allHistory;
 
+
+    public ImageView weatherIcon = null;
+//    public ImageView p2Icon = null;
+    public TextView current = null;
+//    public TextView p2Summary = null;
+    public TextView temperature = null;
+//    public TextView p2Temp = null;
+
+
+
+    private BroadcastReceiver weatherReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            double temp = bundle.getDouble("TEMPERATURE");
+            String summary = bundle.getString("SUMMARY");
+            String icon = bundle.getString("ICON").replaceAll("-", "_");
+            String key = bundle.getString("KEY");
+            int resID = getResources().getIdentifier(icon , "drawable", getPackageName());
+            //setWeatherViews(View.VISIBLE);
+            if (key.equals("p1"))  {
+                current.setText(summary);
+                temperature.setText(Double.toString(temp));
+                weatherIcon.setImageResource(resID);
+            }
+        }
+    };
+
+
     @Override
     public void onResume(){
         super.onResume();
         allHistory.clear();
         topRef = FirebaseDatabase.getInstance().getReference("history");
         topRef.addChildEventListener (chEvListener);
+        IntentFilter weatherFilter = new IntentFilter(BROADCAST_WEATHER);
+        LocalBroadcastManager.getInstance(this).registerReceiver(weatherReceiver, weatherFilter);
     }
 
     @Override
     public void onPause(){
         super.onPause();
         topRef.removeEventListener(chEvListener);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(weatherReceiver);
+    }
+
+    private void setWeatherViews(int visible){
+        weatherIcon.setVisibility(visible);
+//        p2Icon.setVisibility(visible);
+        current.setVisibility(visible);
+//        p2Summary.setVisibility(visible);
+        temperature.setVisibility(visible);
+//        p2Temp.setVisibility(visible);
+    }
+
+    private void getWeather(){
+        WeatherService.startGetWeather(this, "42.963686", "-85.888595", "p1");
+    }
+
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+        setWeatherViews(View.INVISIBLE);
     }
 
     @Override
@@ -62,6 +119,7 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         getSupportActionBar().setTitle("Conversion Calculator"); // for set actionbar title
 
@@ -75,11 +133,25 @@ public class MainActivity extends AppCompatActivity
         title = (TextView) findViewById(R.id.title);
 
 
+        weatherIcon = (ImageView) this.findViewById(R.id.imgOne);
+//        p2Icon = (ImageView) this.findViewById(R.id.imgTwo);
+        current = (TextView) this.findViewById(R.id.txtForecastOne);
+//        p2Summary = (TextView) this.findViewById(R.id.txtForecastTwo);
+        temperature = (TextView) this.findViewById(R.id.txtTempOne);
+//        p2Temp = (TextView) this.findViewById(R.id.txtTempTwo);
+
+
+
         final Button calculate = findViewById(R.id.calculate);
         calculate.setOnClickListener(new View.OnClickListener()
         {
+
+
+
             public void onClick(View v)
             {
+                getWeather();
+                setWeatherViews(View.VISIBLE);
                 if (fromValue.getText().length() > 0)
                 {
                     if (title.getText().equals("Length Converter"))
@@ -130,6 +202,7 @@ public class MainActivity extends AppCompatActivity
 
 
                 hideSoftKeyboard(v);
+                setWeatherViews(View.INVISIBLE);
             }
         });
 

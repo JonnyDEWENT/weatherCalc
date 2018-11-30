@@ -146,9 +146,9 @@
         app:layout_constraintTop_toBottomOf="@+id/toValue" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="159dp"
-        android:layout_height="132dp"
+        android:id="@+id/imgOne"
+        android:layout_width="136dp"
+        android:layout_height="109dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -156,7 +156,7 @@
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/txtTempOne"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -165,11 +165,11 @@
         android:text="TextView"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imgOne"
         app:layout_constraintTop_toBottomOf="@+id/clear" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/txtForecastOne"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -177,7 +177,7 @@
         android:layout_marginEnd="8dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintStart_toEndOf="@+id/imgOne"
+        app:layout_constraintTop_toBottomOf="@+id/txtTempOne" />
 
 </android.support.constraint.ConstraintLayout>

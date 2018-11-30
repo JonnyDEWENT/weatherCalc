@@ -18,9 +18,12 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme" />
-        <activity android:name=".HistoryActivity"></activity>
-        <activity android:name=".ConversionApp"></activity>
+        <activity android:name=".HistoryActivity" />
+        <activity android:name=".ConversionApp" />
 
+        <service
+            android:name="webservice.WeatherService"
+            android:exported="false"></service>
     </application>
 
 </manifest>
